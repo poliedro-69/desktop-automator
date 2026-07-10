@@ -1,6 +1,6 @@
 {
   "productName": "Desktop Automator",
-  "version": "0.1.0",
+  "version": "1.0.1",
   "identifier": "com.desktopautomator.com",
   "build": {
     "frontendDist": "../dist",

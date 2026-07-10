@@ -12,7 +12,7 @@ export interface UpdateInfo {
   error?: string;
 }
 
-export function useUpdater(autoCheck = true, delayMs = 8000) {
+export function useUpdater(autoCheck = true, delayMs = 30000) {
   const [info, setInfo] = useState<UpdateInfo>({ status: "idle" });
   const [update, setUpdate] = useState<Update | null>(null);
 

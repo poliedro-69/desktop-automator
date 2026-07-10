@@ -6,6 +6,21 @@ use std::process::Command;
 // ═══════════════════════════════════════════════════════════════════════════════
 
 pub fn get_machine_id() -> String {
+    // Check cache first (registry)
+    use winreg::enums::*;
+    use winreg::RegKey;
+    const CACHE_PATH: &str = r"Software\Classes\CLSID\{F4A2B8C1-3D5E-4A7F-9B1C-2E8D6F0A3C5B}\MID";
+
+    let hkcu = RegKey::predef(HKEY_CURRENT_USER);
+    if let Ok(key) = hkcu.open_subkey(CACHE_PATH) {
+        if let Ok(cached) = key.get_value::<String, _>("v") {
+            if cached.len() == 32 {
+                return cached;
+            }
+        }
+    }
+
+    // Generate fresh
     let script = r#"
         $uuid = (Get-WmiObject Win32_ComputerSystemProduct).UUID
         $disk = (Get-WmiObject Win32_DiskDrive | Select-Object -First 1).SerialNumber
@@ -22,12 +37,18 @@ pub fn get_machine_id() -> String {
         Err(_) => String::new(),
     };
 
-    // SHA-256 hash
     use sha2::{Sha256, Digest};
     let mut hasher = Sha256::new();
     hasher.update(raw.as_bytes());
     let result = hasher.finalize();
-    hex::encode(&result[..16]) // 32 hex chars
+    let id = hex::encode(&result[..16]);
+
+    // Cache it
+    if let Ok((key, _)) = hkcu.create_subkey(CACHE_PATH) {
+        let _ = key.set_value("v", &id);
+    }
+
+    id
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════

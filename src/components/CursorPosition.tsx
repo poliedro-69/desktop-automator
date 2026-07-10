@@ -1,30 +1,44 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef, memo } from "react";
 import { invoke } from "@tauri-apps/api/core";
 import { Crosshair } from "lucide-react";
 
-export function CursorPosition() {
-  const [pos, setPos] = useState<{ x: number; y: number } | null>(null);
+/**
+ * Displays global cursor position. Optimized to avoid React re-renders:
+ * - Uses direct DOM manipulation instead of useState
+ * - Polls every 500ms instead of 100ms
+ * - Wrapped in memo to prevent parent re-renders from affecting it
+ */
+export const CursorPosition = memo(function CursorPosition() {
+  const xRef = useRef<HTMLSpanElement>(null);
+  const yRef = useRef<HTMLSpanElement>(null);
   const intervalRef = useRef<number | null>(null);
 
   useEffect(() => {
+    let lastX = -1;
+    let lastY = -1;
+
     const poll = async () => {
       try {
         const [x, y] = await invoke<[number, number]>("get_cursor_position");
-        setPos({ x, y });
+        // Only update DOM if position actually changed
+        if (x !== lastX || y !== lastY) {
+          lastX = x;
+          lastY = y;
+          if (xRef.current) xRef.current.textContent = String(x);
+          if (yRef.current) yRef.current.textContent = String(y);
+        }
       } catch {
-        // ignore errors (e.g. not on Windows)
+        // ignore
       }
     };
 
-    poll(); // initial
-    intervalRef.current = window.setInterval(poll, 100); // 10 fps
+    poll();
+    intervalRef.current = window.setInterval(poll, 500); // 2 fps — sufficient for coordinate display
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
   }, []);
-
-  if (!pos) return null;
 
   return (
     <div
@@ -48,8 +62,8 @@ export function CursorPosition() {
       }}
     >
       <Crosshair size={11} />
-      <span>X: <strong style={{ color: "var(--text)" }}>{pos.x}</strong></span>
-      <span>Y: <strong style={{ color: "var(--text)" }}>{pos.y}</strong></span>
+      <span>X: <strong ref={xRef} style={{ color: "var(--text)" }}>0</strong></span>
+      <span>Y: <strong ref={yRef} style={{ color: "var(--text)" }}>0</strong></span>
     </div>
   );
-}
+});
