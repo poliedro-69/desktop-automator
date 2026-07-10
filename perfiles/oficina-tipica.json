@@ -1,0 +1,81 @@
+{
+  "config": {
+    "minDelay": 5,
+    "maxDelay": 20,
+    "loop": true,
+    "loopCount": 0,
+    "humanize": true
+  },
+  "activities": [
+    {
+      "id": "a1",
+      "type": "open_browser",
+      "label": "Abrir intranet corporativa",
+      "params": { "url": "http://intranet.empresa.local" },
+      "enabled": true
+    },
+    {
+      "id": "a2",
+      "type": "mouse_move",
+      "label": "Revisar página web (scroll y mouse)",
+      "params": { "duration": 25 },
+      "enabled": true
+    },
+    {
+      "id": "a3",
+      "type": "open_spreadsheet",
+      "label": "Abrir hoja de seguimiento diario",
+      "params": { "path": "C:\\Users\\Public\\Documents\\seguimiento.xlsx" },
+      "enabled": true
+    },
+    {
+      "id": "a4",
+      "type": "type_text",
+      "label": "Añadir nota en documento",
+      "params": { "text": "Revisado y actualizado el registro de actividades del día." },
+      "enabled": true
+    },
+    {
+      "id": "a5",
+      "type": "open_app",
+      "label": "Abrir Notepad para notas",
+      "params": { "path": "C:\\Windows\\System32\\notepad.exe" },
+      "enabled": true
+    },
+    {
+      "id": "a6",
+      "type": "idle_break",
+      "label": "Descanso de 5 minutos",
+      "params": { "seconds": 300 },
+      "enabled": true
+    },
+    {
+      "id": "a7",
+      "type": "browse_intranet",
+      "label": "Consultar portal de RRHH",
+      "params": { "url": "http://intranet.empresa.local/rrhh" },
+      "enabled": true
+    },
+    {
+      "id": "a8",
+      "type": "run_powershell",
+      "label": "Verificar conectividad de red",
+      "params": { "script": "Test-Connection -ComputerName 8.8.8.8 -Count 2 | Select-Object -Property Address, ResponseTime" },
+      "enabled": true
+    },
+    {
+      "id": "a9",
+      "type": "take_screenshot",
+      "label": "Captura de evidencia",
+      "params": { "outputPath": "C:\\Temp\\evidencias" },
+      "enabled": false
+    },
+    {
+      "id": "a10",
+      "type": "idle_break",
+      "label": "Pausa larga (almuerzo)",
+      "params": { "seconds": 3600 },
+      "enabled": false
+    }
+  ]
+}

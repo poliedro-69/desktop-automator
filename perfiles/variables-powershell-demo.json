@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "name": "Demo Variables + PowerShell",
+  "savedAt": "2026-07-06T10:00:00.000Z",
+  "config": {
+    "minDelay": 2,
+    "maxDelay": 5,
+    "loop": false,
+    "loopCount": 0,
+    "humanize": true
+  },
+  "activities": [
+    {
+      "id": "v1",
+      "type": "set_variable",
+      "label": "Definir nombre del reporte",
+      "params": {
+        "name": "reporte",
+        "value": "informe_{{date}}_{{random_id}}"
+      },
+      "enabled": true
+    },
+    {
+      "id": "v2",
+      "type": "set_variable",
+      "label": "Definir carpeta de trabajo",
+      "params": {
+        "name": "carpeta",
+        "value": "C:\\Temp\\reportes"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ps1",
+      "type": "run_powershell",
+      "label": "Crear carpeta si no existe",
+      "params": {
+        "script": "New-Item -ItemType Directory -Path '{{custom.carpeta}}' -Force | Out-Null; Write-Host 'Carpeta lista: {{custom.carpeta}}'"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ps2",
+      "type": "run_powershell",
+      "label": "Obtener info del sistema",
+      "params": {
+        "script": "$info = \"PC: $env:COMPUTERNAME | Usuario: $env:USERNAME | Hora: $(Get-Date -Format 'HH:mm:ss')\"; Write-Host $info; $info"
+      },
+      "enabled": true
+    },
+    {
+      "id": "v3",
+      "type": "set_variable",
+      "label": "Guardar info del sistema en variable",
+      "params": {
+        "name": "info_sistema",
+        "value": "{{prev_result}}"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ps3",
+      "type": "run_powershell",
+      "label": "Crear archivo con contenido dinámico",
+      "params": {
+        "script": "$contenido = @\"\nReporte: {{custom.reporte}}\nFecha: {{date}}\nHora: {{time}}\nInfo: {{custom.info_sistema}}\nGenerado automáticamente por Desktop Automator\n\"@\n$ruta = '{{custom.carpeta}}\\{{custom.reporte}}.txt'\n$contenido | Set-Content -Path $ruta -Encoding UTF8\nWrite-Host \"Archivo creado: $ruta\""
+      },
+      "enabled": true
+    },
+    {
+      "id": "ps4",
+      "type": "run_powershell",
+      "label": "Verificar archivo creado",
+      "params": {
+        "script": "$ruta = '{{custom.carpeta}}\\{{custom.reporte}}.txt'; if (Test-Path $ruta) { $size = (Get-Item $ruta).Length; Write-Host \"OK: $ruta ($size bytes)\" } else { Write-Host 'ERROR: archivo no encontrado' }"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ps5",
+      "type": "run_powershell",
+      "label": "Listar archivos generados",
+      "params": {
+        "script": "Get-ChildItem '{{custom.carpeta}}' -Filter '*.txt' | Sort-Object LastWriteTime -Descending | Select-Object -First 5 | ForEach-Object { \"$($_.LastWriteTime.ToString('HH:mm:ss')) - $($_.Name) ($($_.Length) bytes)\" }"
+      },
+      "enabled": true
+    },
+    {
+      "id": "of1",
+      "type": "open_file",
+      "label": "Abrir el reporte generado",
+      "params": {
+        "path": "{{custom.carpeta}}\\{{custom.reporte}}.txt"
+      },
+      "enabled": true
+    },
+    {
+      "id": "ss1",
+      "type": "take_screenshot",
+      "label": "Captura de evidencia",
+      "params": {
+        "outputPath": "{{custom.carpeta}}"
+      },
+      "enabled": false
+    }
+  ]
+}
