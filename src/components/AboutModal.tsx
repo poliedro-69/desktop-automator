@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";
 import { Info, X, ExternalLink } from "lucide-react";
 import { invoke } from "@tauri-apps/api/core";
+import { APP_VERSION } from "../version";
 
 export function AboutButton() {
   const { t } = useTranslation();
@@ -76,7 +77,7 @@ export function AboutButton() {
                 <div>
                   <div style={{ fontWeight: 700, fontSize: 20 }}>Desktop Automator</div>
                   <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 2 }}>
-                    <span style={{ color: "var(--text-muted)", fontSize: 13 }}>v1.0.0</span>
+                    <span style={{ color: "var(--text-muted)", fontSize: 13 }}>v{APP_VERSION}</span>
                     {licenseStatus === "licensed" && (
                       <span style={{
                         background: "rgba(239,68,68,0.1)",

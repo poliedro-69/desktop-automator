@@ -19,6 +19,7 @@ import { hideToTray } from "./hooks/useWindow";
 import { useTheme } from "./hooks/useTheme";
 import { useProfiles } from "./hooks/useProfiles";
 import { invoke } from "@tauri-apps/api/core";
+import { APP_VERSION } from "./version";
 import type { Activity, SimulationConfig } from "./types";
 
 const DEFAULT_ACTIVITIES: Activity[] = [];
@@ -114,7 +115,7 @@ export default function App() {
             borderRadius: 99,
           }}
         >
-          v1.0
+          v{APP_VERSION}
         </span>
 
         <div style={{ flex: 1 }} />
