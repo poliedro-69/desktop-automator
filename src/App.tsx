@@ -335,6 +335,7 @@ export default function App() {
                   onMoveUp={index > 0 ? () => moveActivity(index, "up") : null}
                   onMoveDown={index < activities.length - 1 ? () => moveActivity(index, "down") : null}
                   forceExpanded={allExpanded}
+                  onToggle={() => setAllExpanded(null)}
                 />
               ))
             )}

@@ -33,15 +33,13 @@ interface Props {
   onMoveUp: (() => void) | null;
   onMoveDown: (() => void) | null;
   forceExpanded?: boolean | null;
+  onToggle?: () => void;
 }
 
-export function ActivityCard({ activity, onChange, onDelete, onMoveUp, onMoveDown, forceExpanded }: Props) {
+export function ActivityCard({ activity, onChange, onDelete, onMoveUp, onMoveDown, forceExpanded, onToggle }: Props) {
   const { t } = useTranslation();
   const [localExpanded, setLocalExpanded] = useState(false);
   const expanded = forceExpanded != null ? forceExpanded : localExpanded;
-  const setExpanded = (v: boolean | ((prev: boolean) => boolean)) => {
-    setLocalExpanded(v);
-  };
 
   const update = (patch: Partial<Activity>) =>
     onChange({ ...activity, ...patch });
@@ -69,7 +67,10 @@ export function ActivityCard({ activity, onChange, onDelete, onMoveUp, onMoveDow
           padding: "10px 12px",
           cursor: "pointer",
         }}
-        onClick={() => setExpanded((e) => !e)}
+        onClick={() => {
+          setLocalExpanded((e) => !e);
+          if (onToggle) onToggle(); // Reset "expand/collapse all" mode
+        }}
       >
         {/* Reorder buttons */}
         <div
