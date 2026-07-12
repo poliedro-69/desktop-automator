@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desktop Automator — Guía de usuario</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #242736;
+  --border: #2e3248;
+  --accent: #6c63ff;
+  --text: #e2e8f0;
+  --text-muted: #8892a4;
+  --success: #22c55e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 40px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+h1 { font-size: 28px; margin-bottom: 8px; }
+h2 { font-size: 20px; margin-top: 36px; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+h3 { font-size: 16px; margin-top: 20px; margin-bottom: 8px; }
+p { margin-bottom: 12px; }
+code {
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+td:first-child { white-space: nowrap; }
+.badge {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--accent);
+  margin-right: 6px;
+}
+.tip {
+  background: rgba(108,99,255,0.08);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.tip::before { content: "💡 "; }
+.warning {
+  background: rgba(245,158,11,0.08);
+  border-left: 3px solid #f59e0b;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.warning::before { content: "⚠️ "; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.logo { font-size: 32px; margin-bottom: 20px; }
+.subtitle { color: var(--text-muted); font-size: 16px; margin-bottom: 30px; }
+ul, ol { margin: 8px 0 12px 24px; }
+li { margin-bottom: 6px; }
+kbd {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+}
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; }
+.toc a { display: block; padding: 3px 0; }
+</style>
+</head>
+<body>
+
+<div class="logo">🤖</div>
+<h1>Desktop Automator</h1>
+<p class="subtitle">Guía de usuario — Herramienta de automatización de escritorio</p>
+
+<div class="toc">
+<strong>Contenido</strong>
+<a href="#inicio-rapido">1. Inicio rápido</a>
+<a href="#actividades">2. Actividades disponibles</a>
+<a href="#configuracion">3. Configuración</a>
+<a href="#variables">4. Variables y plantillas</a>
+<a href="#perfiles">5. Perfiles</a>
+<a href="#tray">6. Modo bandeja del sistema</a>
+<a href="#temas">7. Temas claro/oscuro</a>
+<a href="#atajos">8. Atajos de teclado soportados</a>
+<a href="#ejemplos">9. Ejemplos de flujos</a>
+<a href="#faq">10. Preguntas frecuentes</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="inicio-rapido">1. Inicio rápido</h2>
+
+<ol>
+<li><strong>Añadir actividades:</strong> Click en <span class="badge">+ Añadir actividad</span> y selecciona de la lista por categorías.</li>
+<li><strong>Configurar parámetros:</strong> Expande cada actividad con click para ver sus opciones.</li>
+<li><strong>Ordenar:</strong> Usa las flechas ↑↓ a la izquierda de cada actividad para reordenar.</li>
+<li><strong>Activar/Desactivar:</strong> El toggle de cada actividad controla si se ejecuta o se salta.</li>
+<li><strong>Iniciar:</strong> Pulsa <span class="badge">▶ Iniciar automatización</span> para comenzar.</li>
+<li><strong>Detener:</strong> Pulsa <span class="badge">⏹ Detener</span> en cualquier momento.</li>
+</ol>
+
+<div class="tip">
+La automatización se ejecuta secuencialmente: cada actividad espera a que la anterior termine antes de continuar.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="actividades">2. Actividades disponibles</h2>
+
+<h3>📁 Aplicaciones y archivos</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>🖥️ Abrir aplicación</td><td>Lanza cualquier ejecutable</td><td><code>path</code> — ruta al .exe</td></tr>
+<tr><td>📄 Abrir documento</td><td>Abre con la app predeterminada</td><td><code>path</code> — ruta al archivo</td></tr>
+<tr><td>📊 Abrir hoja de cálculo</td><td>Abre Excel/Calc</td><td><code>path</code> — ruta al .xlsx</td></tr>
+<tr><td>📂 Copiar archivo</td><td>Copia un archivo a otra ruta</td><td><code>source</code>, <code>dest</code></td></tr>
+</table>
+
+<h3>🌐 Navegación web</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>🌐 Abrir URL</td><td>Abre en el navegador predeterminado</td><td><code>url</code></td></tr>
+<tr><td>🏢 Navegar Intranet</td><td>Igual que abrir URL (diferente etiqueta)</td><td><code>url</code></td></tr>
+<tr><td>🔄 Alternar entre URLs</td><td>Abre varias pestañas y rota entre ellas</td><td><code>urls</code> (separadas por coma), <code>interval</code> (segundos)</td></tr>
+</table>
+
+<h3>🖱️ Mouse</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>🖱️ Mover mouse</td><td>Movimiento natural con curvas durante N segundos</td><td><code>duration</code></td></tr>
+<tr><td>🎯 Click en coordenada</td><td>Mueve y hace click en (x, y)</td><td><code>x</code>, <code>y</code>, <code>button</code> (left/right/middle)</td></tr>
+<tr><td>👆 Doble click</td><td>Mueve y hace doble click en (x, y)</td><td><code>x</code>, <code>y</code></td></tr>
+<tr><td>📜 Scroll</td><td>Hace scroll arriba/abajo en la ventana activa</td><td><code>direction</code> (up/down), <code>amount</code></td></tr>
+</table>
+
+<div class="tip">
+Para conocer las coordenadas de pantalla: en Windows, abre el Paint, mueve el mouse y mira las coordenadas en la barra inferior. También puedes usar <kbd>Win+Shift+S</kbd> y tomar nota de la posición.
+</div>
+
+<h3>⌨️ Teclado</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>⌨️ Atajo de teclado</td><td>Ejecuta combinaciones como Ctrl+S, Alt+Tab</td><td><code>shortcut</code></td></tr>
+<tr><td>✍️ Escritura automática</td><td>Escribe texto con velocidad humana variable</td><td><code>text</code></td></tr>
+<tr><td>📋 Copiar / Pegar</td><td>Escribe texto, lo selecciona, copia y pega</td><td><code>text</code>, <code>pasteDelay</code> (ms)</td></tr>
+</table>
+
+<h3>⚡ Sistema</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>⚡ PowerShell</td><td>Ejecuta un script en segundo plano</td><td><code>script</code></td></tr>
+<tr><td>📸 Captura de pantalla</td><td>Guarda screenshot con timestamp</td><td><code>outputPath</code> (carpeta)</td></tr>
+<tr><td>📌 Definir variable</td><td>Asigna un valor a una variable personalizada</td><td><code>name</code>, <code>value</code></td></tr>
+</table>
+
+<h3>⏸️ Pausas</h3>
+<table>
+<tr><th>Actividad</th><th>Descripción</th><th>Parámetros</th></tr>
+<tr><td>🎲 Pausa aleatoria</td><td>Espera entre N y M segundos aleatorios</td><td><code>minSeconds</code>, <code>maxSeconds</code></td></tr>
+<tr><td>⏸️ Pausa fija</td><td>Espera exactamente N segundos</td><td><code>seconds</code></td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="configuracion">3. Configuración</h2>
+
+<p>Pulsa el icono ⚙️ en la barra superior para abrir el panel de configuración global:</p>
+
+<table>
+<tr><th>Opción</th><th>Descripción</th></tr>
+<tr><td>Delay mín / máx</td><td>Tiempo de espera aleatorio entre actividades (segundos)</td></tr>
+<tr><td>Repetir en bucle</td><td>Si está activo, repite la secuencia completa</td></tr>
+<tr><td>Ciclos (0=∞)</td><td>Número de repeticiones. 0 significa infinito hasta que lo detengas</td></tr>
+<tr><td>Micro-pausas humanas</td><td>Agrega pequeñas pausas aleatorias (0.5-2s) después de cada acción</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="variables">4. Variables y plantillas</h2>
+
+<p>Cualquier campo de texto en los parámetros acepta <strong>variables dinámicas</strong> con la sintaxis <code>{{nombre}}</code>. Se resuelven justo antes de ejecutar cada actividad.</p>
+
+<h3>Variables disponibles</h3>
+<table>
+<tr><th>Variable</th><th>Valor</th><th>Ejemplo</th></tr>
+<tr><td><code>{{date}}</code></td><td>Fecha actual</td><td>2026-07-03</td></tr>
+<tr><td><code>{{time}}</code></td><td>Hora actual</td><td>14:30:22</td></tr>
+<tr><td><code>{{timestamp}}</code></td><td>Fecha y hora</td><td>2026-07-03 14:30:22</td></tr>
+<tr><td><code>{{counter}}</code></td><td>Nº de actividad en el ciclo</td><td>1, 2, 3...</td></tr>
+<tr><td><code>{{cycle}}</code></td><td>Nº de ciclo actual</td><td>1, 2...</td></tr>
+<tr><td><code>{{prev_result}}</code></td><td>Resultado de la actividad anterior</td><td>(texto variable)</td></tr>
+<tr><td><code>{{clipboard}}</code></td><td>Último output de PowerShell</td><td>(texto variable)</td></tr>
+<tr><td><code>{{random_id}}</code></td><td>ID aleatorio de 8 caracteres</td><td>a7x3k9m2</td></tr>
+<tr><td><code>{{random_number}}</code></td><td>Número aleatorio 1-9999</td><td>4217</td></tr>
+<tr><td><code>{{custom.X}}</code></td><td>Variable definida con "Definir variable"</td><td>lo que asignes</td></tr>
+</table>
+
+<h3>Ejemplo de uso</h3>
+<pre>
+Actividad: Abrir archivo
+Ruta: C:\Informes\reporte_{{date}}.xlsx
+
+→ Se resuelve a: C:\Informes\reporte_2026-07-03.xlsx
+</pre>
+
+<h3>Encadenamiento de resultados</h3>
+<p>El resultado de cada actividad se guarda automáticamente en <code>{{prev_result}}</code>. Esto permite que una actividad use la salida de la anterior:</p>
+<pre>
+1. ⚡ PowerShell → script: "Get-Date -Format 'dd-MM-yyyy'"
+   → resultado: "03-07-2026"
+   
+2. ✍️ Escritura → text: "Fecha de hoy: {{prev_result}}"
+   → escribe: "Fecha de hoy: 03-07-2026"
+</pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="perfiles">5. Perfiles</h2>
+
+<p>Los perfiles guardan toda tu configuración (actividades + ajustes globales) en un archivo <code>.json</code>.</p>
+
+<ul>
+<li><strong>Guardar:</strong> Botón "Guardar" en la barra superior → diálogo para elegir dónde guardarlo</li>
+<li><strong>Abrir:</strong> Botón "Abrir" → seleccionar un archivo de perfil existente</li>
+<li><strong>Recientes:</strong> Icono 🕐 → lista de los últimos 8 perfiles usados (click para cargar)</li>
+</ul>
+
+<div class="tip">
+Puedes crear perfiles diferentes para cada flujo de trabajo: uno para la jornada matutina, otro para la tarde, otro para demos, etc.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="tray">6. Modo bandeja del sistema</h2>
+
+<p>El botón <span class="badge">👁️ Ocultar</span> minimiza la app a la bandeja del sistema (system tray). La automatización sigue corriendo en segundo plano.</p>
+
+<ul>
+<li><strong>Click izquierdo en el icono del tray:</strong> Muestra/oculta la ventana</li>
+<li><strong>Click derecho → Mostrar ventana:</strong> Restaura la app</li>
+<li><strong>Click derecho → Salir:</strong> Cierra la app completamente</li>
+</ul>
+
+<div class="warning">
+Si cierras la ventana con la X, la app se cierra completamente. Usa "Ocultar" para que siga en segundo plano.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="temas">7. Temas claro/oscuro</h2>
+
+<p>Icono ☀️/🌙 en la barra superior. El tema se guarda automáticamente y se aplica al reiniciar.</p>
+<p>Si no eliges tema manualmente, la app usa la configuración del sistema operativo (Configuración → Personalización → Colores).</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="atajos">8. Atajos de teclado soportados</h2>
+
+<p>Para la actividad "Atajo de teclado", usa el formato <code>modificador+tecla</code>:</p>
+
+<h3>Modificadores</h3>
+<table>
+<tr><td><code>ctrl</code></td><td><code>alt</code></td><td><code>shift</code></td><td><code>win</code></td></tr>
+</table>
+
+<h3>Teclas especiales</h3>
+<table>
+<tr><td><code>tab</code></td><td><code>enter</code></td><td><code>escape</code></td><td><code>space</code></td></tr>
+<tr><td><code>delete</code></td><td><code>backspace</code></td><td><code>home</code></td><td><code>end</code></td></tr>
+<tr><td><code>pageup</code></td><td><code>pagedown</code></td><td><code>up</code></td><td><code>down</code></td></tr>
+<tr><td><code>left</code></td><td><code>right</code></td><td><code>f1</code>-<code>f12</code></td><td><code>a</code>-<code>z</code></td></tr>
+</table>
+
+<h3>Ejemplos</h3>
+<pre>
+ctrl+s          → Guardar
+ctrl+c          → Copiar
+ctrl+v          → Pegar
+alt+tab         → Cambiar ventana
+ctrl+shift+n    → Nueva carpeta (en Explorer)
+win+d           → Mostrar escritorio
+f5              → Refrescar
+ctrl+shift+t    → Reabrir pestaña cerrada
+</pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="ejemplos">9. Ejemplos de flujos</h2>
+
+<h3>📋 Jornada laboral típica</h3>
+<pre>
+1. 🌐 Abrir URL → http://intranet/
+2. 🖱️ Mover mouse → 25 segundos
+3. 📊 Abrir hoja de cálculo → C:\Trabajo\seguimiento.xlsx
+4. ✍️ Escritura → "Actualizado {{timestamp}}"
+5. ⌨️ Atajo → ctrl+s
+6. 🎲 Pausa aleatoria → 60-180s
+7. 🔄 Alternar URLs → intranet, correo, portal
+</pre>
+
+<h3>📂 Backup automatizado</h3>
+<pre>
+1. 📌 Definir variable → name: "fecha", value: "{{date}}"
+2. 📂 Copiar archivo → source: C:\Trabajo\informe.xlsx
+                        dest: C:\Backup\informe_{{custom.fecha}}.xlsx
+3. 📸 Captura → C:\Backup\capturas
+4. ⚡ PowerShell → "Write-Host 'Backup completado: {{custom.fecha}}'"
+</pre>
+
+<h3>🖥️ Demo de producto</h3>
+<pre>
+1. 🖥️ Abrir app → miapp.exe
+2. ⏸️ Pausa → 3s (esperar carga)
+3. 🎯 Click → (200, 300) botón "Nuevo"
+4. ✍️ Escritura → "Ejemplo de datos de prueba"
+5. ⌨️ Atajo → ctrl+s
+6. 📸 Captura → C:\Demo\capturas
+</pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="faq">10. Preguntas frecuentes</h2>
+
+<h3>¿Funciona con la pantalla bloqueada?</h3>
+<p>No. El mouse y teclado simulados requieren que Windows esté en una sesión activa (pantalla desbloqueada). Si bloqueas la pantalla (<kbd>Win+L</kbd>), las acciones de input dejarán de funcionar hasta que desbloquees.</p>
+
+<h3>¿Puedo usar coordenadas de un segundo monitor?</h3>
+<p>Sí. En configuración de varios monitores, el monitor secundario suele empezar en X=1920 (si el principal es 1920px de ancho). Usa coordenadas como <code>x: 2200, y: 400</code> para el segundo monitor.</p>
+
+<h3>¿Qué pasa si la app objetivo no está abierta?</h3>
+<p>Si intentas hacer click en una coordenada o escribir texto pero la ventana no está en primer plano, la acción se ejecutará en cualquier ventana que tenga el foco en ese momento. Usa "Abrir aplicación" primero para asegurarte.</p>
+
+<h3>¿Los perfiles se pueden compartir entre PCs?</h3>
+<p>Sí, los archivos <code>.json</code> de perfil son portables. Solo asegúrate de que las rutas de archivos existan en el PC destino.</p>
+
+<h3>¿Cómo hago que se ejecute al iniciar Windows?</h3>
+<p>Copia un acceso directo del .exe en:</p>
+<pre>C:\Users\TU_USUARIO\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</pre>
+<p>O crea una actividad de PowerShell que lo registre.</p>
+
+<h3>¿Consume muchos recursos?</h3>
+<p>No. La app usa ~15 MB de RAM y CPU casi nulo cuando espera entre acciones. Está construida con Rust (backend nativo) y WebView2 (frontend ligero).</p>
+
+<p style="margin-top: 50px; color: var(--text-muted); text-align: center; font-size: 13px;">
+Desktop Automator v1.0 — Herramienta de automatización de escritorio<br>
+Construido con Tauri 2.0 + Rust + React
+</p>
+
+</body>
+</html>

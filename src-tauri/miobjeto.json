@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "name": "miobjeto",
+  "savedAt": "2026-07-06T09:24:11.458Z",
+  "config": {
+    "minDelay": 3,
+    "maxDelay": 10,
+    "loop": true,
+    "loopCount": 0,
+    "humanize": true
+  },
+  "activities": [
+    {
+      "id": "1",
+      "type": "open_browser",
+      "label": "Abrir Chrome con intranet",
+      "params": {
+        "url": "http://intranet/"
+      },
+      "enabled": true
+    },
+    {
+      "id": "2",
+      "type": "open_spreadsheet",
+      "label": "Abrir hoja de trabajo diaria",
+      "params": {
+        "path": "C:\\Users\\Public\\Documents\\trabajo.xlsx"
+      },
+      "enabled": true
+    },
+    {
+      "id": "3",
+      "type": "mouse_move",
+      "label": "Actividad de mouse",
+      "params": {
+        "duration": 20
+      },
+      "enabled": true
+    },
+    {
+      "id": "4",
+      "type": "idle_break",
+      "label": "Descanso corto",
+      "params": {
+        "seconds": 60
+      },
+      "enabled": true
+    }
+  ]
+}

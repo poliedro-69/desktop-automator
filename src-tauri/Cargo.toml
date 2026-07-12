@@ -1,0 +1,55 @@
+[package]
+name = "desktop-automator"
+version = "1.0.3"
+description = "Herramienta de automatización de escritorio para Windows"
+authors = []
+license = ""
+repository = "https://github.com/poliedro-69/desktop-automator"
+default-run = "desktop-automator"
+edition = "2021"
+rust-version = "1.77.2"
+
+[lib]
+name = "desktop_automator_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[[bin]]
+name = "desktop-automator"
+path = "src/main.rs"
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = ["tray-icon"] }
+tauri-plugin-shell = "2"
+tauri-plugin-dialog = "2"
+tauri-plugin-fs = "2"
+tauri-plugin-updater = "2"
+tauri-plugin-process = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+enigo = "0.2"
+rand = "0.8"
+chrono = { version = "0.4", features = ["serde"] }
+screenshots = "0.8"
+sha2 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+reqwest = { version = "0.12", features = ["blocking", "json"] }
+
+[target.'cfg(windows)'.dependencies]
+winapi = { version = "0.3", features = [
+  "winuser",
+  "windef",
+  "shellapi",
+  "minwindef"
+] }
+winreg = "0.52"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

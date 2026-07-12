@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Desktop Automator — User Guide</title>
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #242736;
+  --border: #2e3248;
+  --accent: #6c63ff;
+  --text: #e2e8f0;
+  --text-muted: #8892a4;
+  --success: #22c55e;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.7;
+  padding: 40px;
+  max-width: 860px;
+  margin: 0 auto;
+}
+h1 { font-size: 28px; margin-bottom: 8px; }
+h2 { font-size: 20px; margin-top: 36px; margin-bottom: 12px; color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 6px; }
+h3 { font-size: 16px; margin-top: 20px; margin-bottom: 8px; }
+p { margin-bottom: 12px; }
+code {
+  background: var(--surface2);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: 'Consolas', monospace;
+  font-size: 13px;
+}
+pre {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+  overflow-x: auto;
+  margin: 12px 0;
+  font-size: 13px;
+  line-height: 1.5;
+}
+table { width: 100%; border-collapse: collapse; margin: 12px 0; }
+th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+th { color: var(--text-muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+td:first-child { white-space: nowrap; }
+.badge {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2px 8px;
+  font-size: 12px;
+  color: var(--accent);
+  margin-right: 6px;
+}
+.tip {
+  background: rgba(108,99,255,0.08);
+  border-left: 3px solid var(--accent);
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.tip::before { content: "💡 "; }
+.warning {
+  background: rgba(245,158,11,0.08);
+  border-left: 3px solid #f59e0b;
+  padding: 10px 14px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+  font-size: 14px;
+}
+.warning::before { content: "⚠️ "; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+.logo { font-size: 32px; margin-bottom: 20px; }
+.subtitle { color: var(--text-muted); font-size: 16px; margin-bottom: 30px; }
+ul, ol { margin: 8px 0 12px 24px; }
+li { margin-bottom: 6px; }
+kbd {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: 'Consolas', monospace;
+  font-size: 12px;
+}
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 20px 0; }
+.toc a { display: block; padding: 3px 0; }
+</style>
+</head>
+<body>
+
+<div class="logo">🤖</div>
+<h1>Desktop Automator</h1>
+<p class="subtitle">User Guide — Desktop automation tool</p>
+
+<div class="toc">
+<strong>Contents</strong>
+<a href="#quick-start">1. Quick start</a>
+<a href="#activities">2. Available activities</a>
+<a href="#configuration">3. Configuration</a>
+<a href="#variables">4. Variables and templates</a>
+<a href="#profiles">5. Profiles</a>
+<a href="#tray">6. System tray mode</a>
+<a href="#themes">7. Light/dark themes</a>
+<a href="#shortcuts">8. Supported keyboard shortcuts</a>
+<a href="#examples">9. Example workflows</a>
+<a href="#faq">10. Frequently asked questions</a>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="quick-start">1. Quick start</h2>
+
+<ol>
+<li><strong>Add activities:</strong> Click <span class="badge">+ Add activity</span> and select from the categorized list.</li>
+<li><strong>Configure parameters:</strong> Expand each activity by clicking on it to reveal its options.</li>
+<li><strong>Reorder:</strong> Use the ↑↓ arrows on the left side of each activity to change execution order.</li>
+<li><strong>Enable/Disable:</strong> The toggle on each activity controls whether it runs or gets skipped.</li>
+<li><strong>Start:</strong> Press <span class="badge">▶ Start automation</span> to begin execution.</li>
+<li><strong>Stop:</strong> Press <span class="badge">⏹ Stop</span> at any time to halt.</li>
+</ol>
+
+<div class="tip">
+Automation runs sequentially: each activity waits for the previous one to finish before continuing.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="activities">2. Available activities</h2>
+
+<h3>📁 Applications &amp; files</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>🖥️ Open application</td><td>Launches any executable</td><td><code>path</code> — path to the .exe file</td></tr>
+<tr><td>📄 Open document</td><td>Opens with the default application</td><td><code>path</code> — path to the file</td></tr>
+<tr><td>📊 Open spreadsheet</td><td>Opens Excel/Calc spreadsheet</td><td><code>path</code> — path to the .xlsx file</td></tr>
+<tr><td>📂 Copy file</td><td>Copies a file to another location</td><td><code>source</code>, <code>dest</code></td></tr>
+</table>
+
+<h3>🌐 Web browsing</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>🌐 Open URL</td><td>Opens in the default browser</td><td><code>url</code></td></tr>
+<tr><td>🏢 Browse Intranet</td><td>Same as Open URL (different label)</td><td><code>url</code></td></tr>
+<tr><td>🔄 Rotate between URLs</td><td>Opens multiple tabs and rotates between them</td><td><code>urls</code> (comma-separated), <code>interval</code> (seconds)</td></tr>
+</table>
+
+<h3>🖱️ Mouse</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>🖱️ Mouse movement</td><td>Natural curved movement for N seconds</td><td><code>duration</code></td></tr>
+<tr><td>🎯 Click at coordinate</td><td>Moves and clicks at position (x, y)</td><td><code>x</code>, <code>y</code>, <code>button</code> (left/right/middle)</td></tr>
+<tr><td>👆 Double-click</td><td>Moves and double-clicks at position (x, y)</td><td><code>x</code>, <code>y</code></td></tr>
+<tr><td>📜 Scroll active window</td><td>Scrolls up or down in the active window</td><td><code>direction</code> (up/down), <code>amount</code></td></tr>
+</table>
+
+<div class="tip">
+To find screen coordinates: in Windows, open Paint, move the mouse and check coordinates in the bottom bar. You can also use <kbd>Win+Shift+S</kbd> and note the cursor position.
+</div>
+
+<h3>⌨️ Keyboard</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>⌨️ Keyboard shortcut</td><td>Executes key combinations like Ctrl+S, Alt+Tab</td><td><code>shortcut</code></td></tr>
+<tr><td>✍️ Auto-typing</td><td>Types text at variable human-like speed</td><td><code>text</code></td></tr>
+<tr><td>📋 Copy / Paste</td><td>Types text, selects it, copies and pastes</td><td><code>text</code>, <code>pasteDelay</code> (ms)</td></tr>
+</table>
+
+<h3>⚡ System</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>⚡ PowerShell script</td><td>Runs a script in the background</td><td><code>script</code></td></tr>
+<tr><td>📸 Take screenshot</td><td>Saves a screenshot with timestamp</td><td><code>outputPath</code> (folder)</td></tr>
+<tr><td>📌 Set variable</td><td>Assigns a value to a custom variable</td><td><code>name</code>, <code>value</code></td></tr>
+</table>
+
+<h3>⏸️ Pauses</h3>
+<table>
+<tr><th>Activity</th><th>Description</th><th>Parameters</th></tr>
+<tr><td>🎲 Random pause</td><td>Waits between N and M random seconds</td><td><code>minSeconds</code>, <code>maxSeconds</code></td></tr>
+<tr><td>⏸️ Fixed pause</td><td>Waits exactly N seconds</td><td><code>seconds</code></td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="configuration">3. Configuration</h2>
+
+<p>Click the ⚙️ icon in the top toolbar to open the global settings panel:</p>
+
+<table>
+<tr><th>Option</th><th>Description</th></tr>
+<tr><td>Min / Max delay</td><td>Random wait time between activities (seconds)</td></tr>
+<tr><td>Repeat in loop</td><td>When enabled, repeats the entire sequence</td></tr>
+<tr><td>Cycles (0=∞)</td><td>Number of repetitions. 0 means infinite until you stop it</td></tr>
+<tr><td>Human micro-pauses</td><td>Adds small random pauses (0.5–2s) after each action for a more natural feel</td></tr>
+</table>
+
+<div class="tip">
+If loop is disabled the automation runs once through the activity list and stops automatically.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="variables">4. Variables and templates</h2>
+
+<p>Any text field in activity parameters accepts <strong>dynamic variables</strong> using the <code>{{name}}</code> syntax. They are resolved just before each activity executes.</p>
+
+<h3>Available variables</h3>
+<table>
+<tr><th>Variable</th><th>Value</th><th>Example</th></tr>
+<tr><td><code>{{date}}</code></td><td>Current date</td><td>2026-07-03</td></tr>
+<tr><td><code>{{time}}</code></td><td>Current time</td><td>14:30:22</td></tr>
+<tr><td><code>{{timestamp}}</code></td><td>Date and time</td><td>2026-07-03 14:30:22</td></tr>
+<tr><td><code>{{counter}}</code></td><td>Activity number in the cycle</td><td>1, 2, 3...</td></tr>
+<tr><td><code>{{cycle}}</code></td><td>Current cycle number</td><td>1, 2...</td></tr>
+<tr><td><code>{{prev_result}}</code></td><td>Result of the previous activity</td><td>(variable text)</td></tr>
+<tr><td><code>{{clipboard}}</code></td><td>Last PowerShell output</td><td>(variable text)</td></tr>
+<tr><td><code>{{random_id}}</code></td><td>Random 8-character ID</td><td>a7x3k9m2</td></tr>
+<tr><td><code>{{random_number}}</code></td><td>Random number 1–9999</td><td>4217</td></tr>
+<tr><td><code>{{custom.X}}</code></td><td>Variable defined with "Set variable"</td><td>whatever you assign</td></tr>
+</table>
+
+<h3>Usage example</h3>
+<pre>
+Activity: Open document
+Path: C:\Reports\report_{{date}}.xlsx
+
+→ Resolves to: C:\Reports\report_2026-07-03.xlsx
+</pre>
+
+<h3>Result chaining</h3>
+<p>The result of each activity is automatically stored in <code>{{prev_result}}</code>. This allows an activity to use the output of the previous one:</p>
+<pre>
+1. ⚡ PowerShell → script: "Get-Date -Format 'dd-MM-yyyy'"
+   → result: "03-07-2026"
+   
+2. ✍️ Auto-typing → text: "Today's date: {{prev_result}}"
+   → types: "Today's date: 03-07-2026"
+</pre>
+
+<h3>Custom variables example</h3>
+<pre>
+1. 📌 Set variable → name: "project", value: "ClientX"
+2. 📌 Set variable → name: "version", value: "{{random_id}}"
+3. ⚡ PowerShell → script: "New-Item -Path 'C:\Builds\{{custom.project}}_{{custom.version}}' -ItemType Directory"
+4. 📸 Screenshot → outputPath: "C:\Builds\{{custom.project}}_{{custom.version}}"
+</pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="profiles">5. Profiles</h2>
+
+<p>Profiles save your entire configuration (activities + global settings) into a <code>.json</code> file.</p>
+
+<ul>
+<li><strong>Save:</strong> "Save" button in the top toolbar → file dialog to choose where to save</li>
+<li><strong>Open:</strong> "Open" button → select an existing profile file</li>
+<li><strong>Recents:</strong> 🕐 icon → list of the last 8 used profiles (click to load)</li>
+</ul>
+
+<div class="tip">
+You can create different profiles for each workflow: one for morning routines, another for afternoons, another for demos, etc.
+</div>
+
+<div class="warning">
+File paths inside a profile are absolute. If you share a profile with another PC, make sure the referenced paths exist on the target machine.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="tray">6. System tray mode</h2>
+
+<p>The <span class="badge">👁️ Hide</span> button minimizes the app to the system tray. The automation keeps running in the background.</p>
+
+<ul>
+<li><strong>Left-click the tray icon:</strong> Shows/hides the window</li>
+<li><strong>Right-click → Show window:</strong> Restores the app</li>
+<li><strong>Right-click → Exit:</strong> Closes the app completely</li>
+</ul>
+
+<div class="warning">
+If you close the window with the X button, the app shuts down completely. Use "Hide" to keep it running in the background.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="themes">7. Light/dark themes</h2>
+
+<p>Click the ☀️/🌙 icon in the top toolbar to toggle. Your theme choice is saved automatically and restored on next launch.</p>
+<p>If you haven't manually selected a theme, the app follows the operating system setting (Settings → Personalization → Colors).</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="shortcuts">8. Supported keyboard shortcuts</h2>
+
+<p>For the "Keyboard shortcut" activity, use the format <code>modifier+key</code>:</p>
+
+<h3>Modifiers</h3>
+<table>
+<tr><td><code>ctrl</code></td><td><code>alt</code></td><td><code>shift</code></td><td><code>win</code></td></tr>
+</table>
+
+<h3>Special keys</h3>
+<table>
+<tr><td><code>tab</code></td><td><code>enter</code></td><td><code>escape</code></td><td><code>space</code></td></tr>
+<tr><td><code>delete</code></td><td><code>backspace</code></td><td><code>home</code></td><td><code>end</code></td></tr>
+<tr><td><code>pageup</code></td><td><code>pagedown</code></td><td><code>up</code></td><td><code>down</code></td></tr>
+<tr><td><code>left</code></td><td><code>right</code></td><td><code>f1</code>–<code>f12</code></td><td><code>a</code>–<code>z</code>, <code>0</code>–<code>9</code></td></tr>
+</table>
+
+<h3>Examples</h3>
+<pre>
+ctrl+s          → Save
+ctrl+c          → Copy
+ctrl+v          → Paste
+alt+tab         → Switch window
+ctrl+shift+n    → New folder (in Explorer)
+win+d           → Show desktop
+f5              → Refresh
+ctrl+shift+t    → Reopen closed tab
+ctrl+alt+delete → Task Manager prompt
+win+e           → Open File Explorer
+</pre>
+
+<div class="tip">
+Combine multiple modifiers for complex shortcuts: <code>ctrl+shift+alt+f5</code> works as expected. Key names are case-insensitive.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="examples">9. Example workflows</h2>
+
+<h3>📋 Office workday</h3>
+<pre>
+1. 🌐 Open URL → http://intranet/
+2. 🖱️ Mouse movement → 25 seconds
+3. 📊 Open spreadsheet → C:\Work\tracking.xlsx
+4. ✍️ Auto-typing → "Updated {{timestamp}}"
+5. ⌨️ Shortcut → ctrl+s
+6. 🎲 Random pause → 60–180s
+7. 🔄 Rotate URLs → intranet, email, portal
+8. 🖱️ Mouse movement → 30 seconds
+9. ⌨️ Shortcut → alt+tab
+10. 🎲 Random pause → 45–120s
+</pre>
+<p>Set loop mode with 0 cycles and a 3–8 second delay between activities to simulate continuous work throughout the day.</p>
+
+<h3>📂 File backup</h3>
+<pre>
+1. 📌 Set variable → name: "today", value: "{{date}}"
+2. 📂 Copy file → source: C:\Work\report.xlsx
+                   dest: C:\Backup\report_{{custom.today}}.xlsx
+3. 📂 Copy file → source: C:\Work\data.csv
+                   dest: C:\Backup\data_{{custom.today}}.csv
+4. 📸 Screenshot → C:\Backup\screenshots
+5. ⚡ PowerShell → "Write-Host 'Backup completed: {{custom.today}}'"
+</pre>
+<p>Run once daily. You can add it to Windows Task Scheduler to launch the app with this profile at a specific time.</p>
+
+<h3>🖥️ Product demo</h3>
+<pre>
+1. 🖥️ Open application → myapp.exe
+2. ⏸️ Fixed pause → 3s (wait for load)
+3. 🎯 Click at coordinate → (200, 300) "New" button
+4. ✍️ Auto-typing → "Sample test data entry"
+5. ⌨️ Shortcut → ctrl+s
+6. 🎲 Random pause → 2–4s
+7. 🎯 Click at coordinate → (400, 150) "Dashboard" tab
+8. 📸 Screenshot → C:\Demo\screenshots
+9. 📜 Scroll → down, 5 steps
+10. 📸 Screenshot → C:\Demo\screenshots
+</pre>
+<p>Great for recording product walkthroughs or trade show kiosks. Combine with a loop to repeat the demo continuously.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<h2 id="faq">10. Frequently asked questions</h2>
+
+<h3>Does it work with the screen locked?</h3>
+<p>No. Simulated mouse and keyboard input requires an active Windows session (screen unlocked). If you lock the screen (<kbd>Win+L</kbd>), input actions will stop working until you unlock it. Non-input activities like PowerShell scripts and file operations will continue normally.</p>
+
+<h3>Can I use coordinates on a second monitor?</h3>
+<p>Yes. In multi-monitor setups, the secondary monitor usually starts at X=1920 (if the primary monitor is 1920px wide). Use coordinates like <code>x: 2200, y: 400</code> for the second monitor. You can check actual positions in Display Settings → Monitor arrangement.</p>
+
+<h3>What happens if the target app isn't open?</h3>
+<p>If you try to click at a coordinate or type text but the target window isn't in the foreground, the action will execute on whatever window has focus at that moment. Use "Open application" first to ensure your target app is running, then use <code>alt+tab</code> or a click to bring it to front.</p>
+
+<h3>Can profiles be shared between PCs?</h3>
+<p>Yes. Profile <code>.json</code> files are portable. Just make sure that any file paths referenced in the activities exist on the target PC. You can use environment variables in PowerShell scripts for cross-machine compatibility.</p>
+
+<h3>How do I run it on Windows startup?</h3>
+<p>Place a shortcut to the .exe in the Windows startup folder:</p>
+<pre>C:\Users\YOUR_USER\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup</pre>
+<p>Alternatively, you can use Task Scheduler for more control over when and how the app launches.</p>
+
+<h3>How much resources does it use?</h3>
+<p>Very little. The app uses ~15 MB of RAM and near-zero CPU while waiting between actions. It's built with Rust (native backend) and WebView2 (lightweight frontend), making it one of the most efficient automation tools available.</p>
+
+<p style="margin-top: 50px; color: var(--text-muted); text-align: center; font-size: 13px;">
+Desktop Automator v1.0 — Desktop automation tool | Built with Tauri 2.0 + Rust + React
+</p>
+
+</body>
+</html>

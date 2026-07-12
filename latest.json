@@ -1,0 +1,11 @@
+{
+  "version": "1.0.3",
+  "notes": "Minor update to test auto-updater functionality",
+  "pub_date": "2026-07-11T09:00:00Z",
+  "platforms": {
+    "windows-x86_64": {
+      "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRUVNKMnBFUURUSDREbzdzMDF4RkZEY1VUNnRhaW5TR0M3MjFIaElVeFh1UEdyS3NkYmRZNVl6cWJQaWFUVC9KMFlicFM1SU05Q1QxckFRL2g2Y1V6R1VoK2c4KzRrdVFZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzgzNzU1MDAxCWZpbGU6RGVza3RvcCBBdXRvbWF0b3JfMS4wLjNfeDY0LXNldHVwLmV4ZQpwMmNDV29BdmV1UldKcUVsV1I1L2VzZTg2eHdkY29nT2lmVWZIM2QwMk44YlM5c2didFc5dVJBS2pFY1ZDaDg4UEtJOWw2K3JySFFDUnV6dU9oMkRBZz09Cg==",
+      "url": "https://github.com/poliedro-69/desktop-automator/releases/download/v1.0.3/Desktop.Automator_1.0.3_x64-setup.exe"
+    }
+  }
+}

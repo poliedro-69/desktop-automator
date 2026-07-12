@@ -1,0 +1,97 @@
+/* ── Dark theme (default) ──────────────────────────────────────────────────── */
+:root,
+[data-theme="dark"] {
+  --bg:           #0f1117;
+  --surface:      #1a1d27;
+  --surface2:     #242736;
+  --border:       #2e3248;
+  --accent:       #6c63ff;
+  --accent-hover: #7c74ff;
+  --accent-soft:  rgba(108,99,255,0.12);
+  --success:      #22c55e;
+  --warning:      #f59e0b;
+  --danger:       #ef4444;
+  --text:         #e2e8f0;
+  --text-muted:   #8892a4;
+  --radius:       10px;
+  --shadow:       0 4px 24px rgba(0,0,0,0.4);
+
+  /* log colors */
+  --log-info:    #8892a4;
+  --log-success: #22c55e;
+  --log-warning: #f59e0b;
+  --log-error:   #ef4444;
+  --log-time:    #4a5268;
+  --log-bg:      #0f1117;
+}
+
+/* ── Light theme ──────────────────────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg:           #f0f2f8;
+  --surface:      #ffffff;
+  --surface2:     #f4f5fb;
+  --border:       #dde0ee;
+  --accent:       #5b53e8;
+  --accent-hover: #6b63f8;
+  --accent-soft:  rgba(91,83,232,0.10);
+  --success:      #16a34a;
+  --warning:      #d97706;
+  --danger:       #dc2626;
+  --text:         #1a1d2e;
+  --text-muted:   #6b7280;
+  --radius:       10px;
+  --shadow:       0 4px 24px rgba(0,0,0,0.10);
+
+  /* log colors */
+  --log-info:    #6b7280;
+  --log-success: #16a34a;
+  --log-warning: #d97706;
+  --log-error:   #dc2626;
+  --log-time:    #9ca3af;
+  --log-bg:      #f8f9ff;
+}
+
+/* ── Reset ────────────────────────────────────────────────────────────────── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  user-select: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ── Scrollbar ────────────────────────────────────────────────────────────── */
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: var(--surface); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+/* ── Input/textarea light mode overrides ──────────────────────────────────── */
+[data-theme="light"] input,
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  color-scheme: light;
+}
+
+/* ── Animations ───────────────────────────────────────────────────────────── */
+@keyframes menuFadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes themeFlip {
+  from { opacity: 0.6; }
+  to   { opacity: 1; }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
