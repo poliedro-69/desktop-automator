@@ -1,9 +1,26 @@
 // ═══════════════════════════════════════════════════════════════════════════════
-// CONFIGURE: Your Stripe keys
-// PRODUCTION: Replace with live keys from https://dashboard.stripe.com/apikeys
+// Stripe keys: loaded from stripe.key file next to the exe (not in git)
+// Create the file manually: put your sk_live_... key in it
 // ═══════════════════════════════════════════════════════════════════════════════
-const STRIPE_SECRET_KEY: &str = "sk_live_REPLACE_WITH_YOUR_LIVE_SECRET_KEY";
-const STRIPE_PRICE_ID: &str = "price_1TsGVnL8zmBQ5Z9q1LKl6VrR"; // $19.95 USD
+
+fn get_stripe_secret_key() -> String {
+    // Try reading from stripe.key file next to the executable
+    if let Ok(exe) = std::env::current_exe() {
+        if let Some(dir) = exe.parent() {
+            let key_file = dir.join("stripe.key");
+            if let Ok(key) = std::fs::read_to_string(&key_file) {
+                let trimmed = key.trim().to_string();
+                if !trimmed.is_empty() {
+                    return trimmed;
+                }
+            }
+        }
+    }
+    // Fallback: environment variable
+    std::env::var("STRIPE_SECRET_KEY").unwrap_or_default()
+}
+
+const STRIPE_PRICE_ID: &str = "price_1TsGVnL8zmBQ5Z9q1LKl6VrR";
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // Create Stripe Checkout Session
@@ -27,7 +44,7 @@ pub fn create_checkout_session(machine_id: String) -> Result<String, String> {
 
     let resp = client
         .post("https://api.stripe.com/v1/checkout/sessions")
-        .header("Authorization", format!("Bearer {}", STRIPE_SECRET_KEY))
+        .header("Authorization", format!("Bearer {}", get_stripe_secret_key()))
         .form(&params)
         .send()
         .map_err(|e| format!("Network error: {}", e))?;
@@ -74,7 +91,7 @@ pub fn check_payment_status(session_id: String) -> Result<String, String> {
 
     let resp = client
         .get(&url)
-        .header("Authorization", format!("Bearer {}", STRIPE_SECRET_KEY))
+        .header("Authorization", format!("Bearer {}", get_stripe_secret_key()))
         .send()
         .map_err(|e| format!("Network error: {}", e))?;
 

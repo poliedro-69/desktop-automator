@@ -17,6 +17,7 @@ src-tauri/gen/schemas/
 *.key.pub
 *.pfx
 *.p12
+stripe.key
 src-tauri/.signing-key
 src-tauri/.signing-key.pub
 
