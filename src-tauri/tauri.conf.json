@@ -30,7 +30,8 @@
     "targets": "all",
     "resources": [
       "../public/help.html",
-      "../public/help-en.html"
+      "../public/help-en.html",
+      "stripe.key"
     ],
     "icon": [
       "icons/32x32.png",

@@ -4,11 +4,20 @@
 // ═══════════════════════════════════════════════════════════════════════════════
 
 fn get_stripe_secret_key() -> String {
-    // Try reading from stripe.key file next to the executable
+    // Try reading from stripe.key file next to the executable (bundled as resource)
     if let Ok(exe) = std::env::current_exe() {
         if let Some(dir) = exe.parent() {
+            // Check next to exe (NSIS install or portable)
             let key_file = dir.join("stripe.key");
             if let Ok(key) = std::fs::read_to_string(&key_file) {
+                let trimmed = key.trim().to_string();
+                if !trimmed.is_empty() {
+                    return trimmed;
+                }
+            }
+            // Check in resources subfolder (MSI install)
+            let res_file = dir.join("resources").join("stripe.key");
+            if let Ok(key) = std::fs::read_to_string(&res_file) {
                 let trimmed = key.trim().to_string();
                 if !trimmed.is_empty() {
                     return trimmed;
