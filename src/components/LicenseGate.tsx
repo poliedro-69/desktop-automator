@@ -63,26 +63,35 @@ function TrialBar({ daysLeft, machineId }: { daysLeft: number; machineId: string
 
   return (
     <div style={{
-      display: "flex", alignItems: "center", justifyContent: "center",
-      gap: 12, padding: "5px 16px",
-      background: daysLeft <= 7 ? "rgba(239,68,68,0.1)" : "rgba(108,99,255,0.08)",
-      borderBottom: "1px solid var(--border)",
-      fontSize: 12,
-    }}>
-      <span style={{ color: daysLeft <= 7 ? "var(--danger)" : "var(--text-muted)" }}>
-        ⏱️ {t("trial.daysLeft", { days: daysLeft })}
-      </span>
-      <button
-        onClick={() => { setPurchasing(true); startPurchase(machineId, () => window.location.reload()); }}
-        disabled={purchasing}
-        style={{
-          background: "var(--accent)", color: "white", border: "none",
-          borderRadius: 5, padding: "3px 10px", cursor: "pointer",
-          fontWeight: 600, fontSize: 11, opacity: purchasing ? 0.6 : 1,
-        }}
-      >
-        {purchasing ? "⏳..." : `${t("trial.buyNow")} ${PRICE_DISPLAY}`}
-      </button>
+      position: "fixed",
+      bottom: 36,
+      left: "50%",
+      transform: "translateX(-50%)",
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      background: "#dc2626",
+      color: "white",
+      borderRadius: 6,
+      padding: "4px 12px",
+      fontSize: 11,
+      fontWeight: 600,
+      zIndex: 100,
+      boxShadow: "0 2px 8px rgba(220,38,38,0.3)",
+      cursor: "pointer",
+    }}
+      onClick={() => {
+        if (!purchasing) {
+          setPurchasing(true);
+          startPurchase(machineId, () => window.location.reload());
+        }
+      }}
+      title={t("trial.buyNow")}
+    >
+      <span>{t("trial.daysLeft", { days: daysLeft })}</span>
+      {!purchasing && <span style={{ opacity: 0.8 }}>|</span>}
+      {!purchasing && <span>{t("trial.buyNow")}</span>}
+      {purchasing && <span>...</span>}
     </div>
   );
 }

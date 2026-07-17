@@ -1,5 +1,10 @@
 # Protección contra distribución no autorizada — Desktop Automator
 
+Dato	Ruta en el registro	Valor
+Fecha de instalación (trial)	HKCU\Software\Classes\CLSID\{F4A2B8C1-3D5E-4A7F-9B1C-2E8D6F0A3C5B}\InProcServer	ts = fecha XOR-encoded en hex
+Clave de licencia	HKCU\Software\Classes\CLSID\{F4A2B8C1-3D5E-4A7F-9B1C-2E8D6F0A3C5B}\License	d = clave XOR-encoded en hex
+Machine ID (cache)	HKCU\Software\Classes\CLSID\{F4A2B8C1-3D5E-4A7F-9B1C-2E8D6F0A3C5B}\MID	v = hash SHA-256 (32 hex chars)
+
 ## Estrategia por capas
 
 No existe protección 100% infalible contra piratería, pero la combinación de varias capas hace que el esfuerzo de crackear no valga la pena comparado con el precio del software.
